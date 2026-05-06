@@ -4,11 +4,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.stereotype.Component;
 
-@Component
 public class WebDriverFactory {
-    public static WebDriver webDriver;
+    private static WebDriver webDriver;
 
     public WebDriver getWebDriver() {
         if (webDriver == null) {
@@ -17,12 +15,22 @@ public class WebDriverFactory {
         return webDriver;
     }
 
+    public WebDriver getExistingWebDriver() {
+        return webDriver;
+    }
+
     private WebDriver setupWebDriver() {
         WebDriverManager.chromedriver().setup();
         var options = new ChromeOptions()
                 .addArguments("--no-sandbox")
-                .addArguments("--remote-allow-origins")
+                .addArguments("--disable-dev-shm-usage")
                 .addArguments("--start-maximized");
+
+        if (Boolean.parseBoolean(System.getProperty("headless", "false"))) {
+            options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
+        }
+
         return new ChromeDriver(options);
     }
 
@@ -34,3 +42,4 @@ public class WebDriverFactory {
         }
     }
 }
+

@@ -9,72 +9,105 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>24</maven.compiler.source>
-        <maven.compiler.target>24</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <cucumber.version>7.18.1</cucumber.version>
+        <selenium.version>4.22.0</selenium.version>
+        <allure.version>2.29.1</allure.version>
+        <allure.commandline.version>2.24.0</allure.commandline.version>
     </properties>
 
     <dependencies>
-        <!--CUCUMBER-->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>gherkin</artifactId>
-            <version>24.0.0</version>
-        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-gherkin</artifactId>
-            <version>7.9.0</version>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>7.9.0</version>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>7.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-jvm-deps</artifactId>
-            <version>1.0.6</version>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
 
-        <!--SPRING-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.2.12</version>
+            <version>6.1.10</version>
+            <scope>test</scope>
         </dependency>
-        <!--SELENIUM-->
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
-            <version>3.141.59</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>6.1.10</version>
+            <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.141.59</version>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
         </dependency>
-        <!--WebDriverManager-->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.8.0</version>
+            <scope>test</scope>
         </dependency>
-        <!--Allure-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>2.21.0</version>
+            <version>${allure.version}</version>
+            <scope>test</scope>
         </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*IT.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.16.1</version>
+                <configuration>
+                    <reportVersion>${allure.commandline.version}</reportVersion>
+                    <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

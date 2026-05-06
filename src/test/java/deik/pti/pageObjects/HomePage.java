@@ -3,7 +3,9 @@ package deik.pti.pageObjects;
 import deik.pti.factory.WebDriverFactory;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HomePage extends CommonPage {
     public HomePage(final WebDriverFactory factory) {
         super(factory);
@@ -13,4 +15,13 @@ public class HomePage extends CommonPage {
 
     @FindBy(id = "popular")
     private WebElement popularButton;
+
+    public String getHomePageUrl() {
+        return HOME_PAGE_URL;
+    }
+
+    public boolean currentUrlContains(final String text) {
+        return factory.getWebDriver().getCurrentUrl().toLowerCase().contains(text.toLowerCase());
+    }
 }
+
